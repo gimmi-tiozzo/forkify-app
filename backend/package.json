@@ -1,0 +1,19 @@
+{
+    "name": "forkify-fe",
+    "version": "1.0.0",
+    "description": "Progetto di test in javascript come back-end nodejs",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/gimmi-tiozzo/forkify-app.git"
+    },
+    "author": "Gimmi Tiozzo",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/gimmi-tiozzo/forkify-app/issues"
+    },
+    "homepage": "https://github.com/gimmi-tiozzo/forkify-app#readme"
+}

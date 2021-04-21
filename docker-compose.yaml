@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+    forkify-fe:
+        image: gimmitest/forkify-fe
+        build:
+            context: frontend
+            dockerfile: Dockerfile
+        container_name: ff-fe
+        ports:
+            - 6768:80
