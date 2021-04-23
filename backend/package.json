@@ -4,7 +4,8 @@
     "description": "Progetto di test in javascript come back-end nodejs",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "build": "nodemon src/App.js",
+        "docs": "typedoc"
     },
     "repository": {
         "type": "git",
@@ -15,5 +16,14 @@
     "bugs": {
         "url": "https://github.com/gimmi-tiozzo/forkify-app/issues"
     },
-    "homepage": "https://github.com/gimmi-tiozzo/forkify-app#readme"
+    "homepage": "https://github.com/gimmi-tiozzo/forkify-app#readme",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "xmlhttprequest": "^1.8.0"
+    },
+    "devDependencies": {
+        "jsdoc": "^3.6.6",
+        "nodemon": "^2.0.7"
+    }
 }
