@@ -7,7 +7,8 @@ export const AUTH_TOKEN: string = "05a97d2a-f36d-4b7b-91d9-801cd3c0e963";
 /**
  * Url per le Web Api di Forkify
  */
-export const FORKIFY_WEBAPI_URL: string = "https://forkify-api.herokuapp.com/api/v2";
+//export const FORKIFY_WEBAPI_URL: string = "https://forkify-api.herokuapp.com/api/v2";
+export const FORKIFY_WEBAPI_URL: string = "http://localhost:8000";
 
 /**
  * Timeout chiamata web api
