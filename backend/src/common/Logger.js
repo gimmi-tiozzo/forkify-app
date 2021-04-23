@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 /**
  * livello di log error
  */
@@ -12,13 +15,18 @@ const warning = 1;
 const info = 0;
 
 /**
+ * Path file di log
+ */
+const filePath = path.join(".", "logs", "log.txt");
+
+/**
  * Oggetto per il logging
  */
 const Logger = {
     /**
      * Livello di log
      */
-    logLevel: error,
+    logLevel: info,
 
     /**
      *  Log info
@@ -27,6 +35,7 @@ const Logger = {
     info: function (message) {
         if (this.logLevel === info) {
             console.log(message);
+            traceFile(message, "INFO");
         }
     },
 
@@ -37,6 +46,7 @@ const Logger = {
     warning: function (message) {
         if (this.logLevel === info || this.logLevel === warning) {
             console.warn(message);
+            traceFile(message, "WARNING");
         }
     },
 
@@ -47,8 +57,30 @@ const Logger = {
     error: function (message) {
         if (this.logLevel === info || (this.logLevel === warning) | (this.logLevel === error)) {
             console.error(message);
+            traceFile(message, "ERROR");
         }
     },
 };
+
+/**
+ * Esegui la scrittura di un file nel filesystem
+ * @param {string} message
+ */
+function traceFile(message, level) {
+    const logRow = `${Intl.DateTimeFormat("it-IT", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+    }).format(new Date())} - ${level}: ${message}\n`;
+
+    fs.appendFile(filePath, logRow, (err) => {
+        if (err) {
+            throw err;
+        }
+    });
+}
 
 exports.Trace = Logger;
