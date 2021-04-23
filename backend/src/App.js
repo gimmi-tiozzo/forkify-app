@@ -6,6 +6,14 @@ const logger = require("./common/Logger");
 const app = express();
 app.use(bodyParser.json());
 
+//gestine CORS
+app.use((_, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+    next();
+});
+
 //carica la lista delle ricette
 app.get("/recipes", async (req, res) => {
     try {
