@@ -1,0 +1,9 @@
+dist/
+docs/
+node_modules/
+.gitignore
+.prettierrc
+docker-compose.yaml
+Dockerfile
+package-lock.json
+.vscode/

@@ -3,5 +3,5 @@ WORKDIR /app
 COPY package.json .
 RUN npm install
 COPY src .
-EXPOSE 8000
+EXPOSE 8080
 CMD [ "nodemon", "App.js" ]

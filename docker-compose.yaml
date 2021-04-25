@@ -1,5 +1,13 @@
 version: "3.8"
 services:
+    forkify-au:
+        image: gimmitest/forkify-au
+        build:
+            context: auth
+            dockerfile: Dockerfile
+        container_name: ff-au
+        ports:
+            - 8080:8080
     forkify-be:
         image: gimmitest/forkify-be
         build:
@@ -8,6 +16,8 @@ services:
         container_name: ff-be
         ports:
             - 8000:8000
+        depends_on:
+            - forkify-au
     forkify-fe:
         image: gimmitest/forkify-fe
         build:

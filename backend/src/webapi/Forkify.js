@@ -1,6 +1,7 @@
 const httpClient = require("./HttpPromiseClient");
 const config = require("../common/Config");
 const logger = require("../common/Logger");
+const fetch = require("node-fetch");
 
 /**
  * Classe base per una webapi
@@ -10,7 +11,35 @@ const logger = require("../common/Logger");
 function BaseWebApi(url, token) {
     this.url = url;
     this.token = token;
+    this.isAuth = false;
 }
+
+/**
+ * Esegui una autenticazione basata su token
+ * @returns true se l'autenticazione è andata a buon fine, false altrimenti
+ */
+BaseWebApi.prototype.checkToken = async function () {
+    const response = await fetch(config.appSettings.authWebApiUrl, {
+        method: "GET",
+        headers: {
+            Authorization: `barer ${this.token}`,
+        },
+    });
+
+    let json = await response.json();
+    json = json ?? "";
+
+    if (!response.ok) {
+        logger.Trace.error(`Autenticazione fallita. Status ${response.status} - ${JSON.stringify(json)} `);
+    }
+
+    if (json.status === "success") {
+        return true;
+    } else {
+        logger.Trace.error(`Autenticazione fallita. Status ${response.status} - ${JSON.stringify(json)} `);
+        return false;
+    }
+};
 
 /**
  * Costruisci url base
@@ -28,6 +57,11 @@ BaseWebApi.prototype.buildWebApiUrl = function (webApi) {
  * @returns risposta json
  */
 BaseWebApi.prototype.callGetApi = async function (uri, queryString) {
+    //verifico l'autenticazione
+    if (!this.isAuth) {
+        this.isAuth = await this.checkToken();
+    }
+
     const apiUrl = this.buildWebApiUrl(uri);
     const webApiurl = `${apiUrl}${queryString ? queryString : ""}`;
 
@@ -41,6 +75,11 @@ BaseWebApi.prototype.callGetApi = async function (uri, queryString) {
  * @returns risposta json
  */
 BaseWebApi.prototype.callPostApi = async function (uri, jsonBody) {
+    //verifico l'autenticazione
+    if (!this.isAuth) {
+        this.isAuth = await this.checkToken();
+    }
+
     const webApiurl = this.buildWebApiUrl(uri);
     return await httpClient.send(webApiurl, "POST", jsonBody);
 };
