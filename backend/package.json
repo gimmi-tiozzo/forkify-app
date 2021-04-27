@@ -1,10 +1,10 @@
 {
-    "name": "forkify-fe",
+    "name": "forkify-be",
     "version": "1.0.0",
     "description": "Progetto di test in javascript come back-end nodejs",
     "main": "index.js",
     "scripts": {
-        "build": "nodemon src/App.js",
+        "build": "nodemon -L src/App.js",
         "docs": "jsdoc"
     },
     "repository": {

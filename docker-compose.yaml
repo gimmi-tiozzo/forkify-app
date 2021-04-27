@@ -5,17 +5,33 @@ services:
         build:
             context: auth
             dockerfile: Dockerfile
+            args:
+                DEFAULT_PORT: 8080
         container_name: ff-au
-        ports:
-            - 8080:8080
+        env_file: auth/.env
+        volumes:
+            - D:\courses\my\forkify-app\auth:/app
+        networks:
+            - forkify-net
     forkify-be:
         image: gimmitest/forkify-be
         build:
             context: backend
             dockerfile: Dockerfile
+            args:
+                DEFAULT_PORT: 8000
         container_name: ff-be
+        environment:
+            - AUTH_PORT=8080
+        env_file: backend/.env
         ports:
             - 8000:8000
+        volumes:
+            - /app/node_modules
+            - D:\courses\my\forkify-app\backend:/app
+            - be-logs:/app/logs
+        networks:
+            - forkify-net
         depends_on:
             - forkify-au
     forkify-fe:
@@ -26,5 +42,11 @@ services:
         container_name: ff-fe
         ports:
             - 6768:80
+        networks:
+            - forkify-net
         depends_on:
             - forkify-be
+volumes:
+    be-logs:
+networks:
+    forkify-net:

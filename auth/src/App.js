@@ -26,4 +26,4 @@ app.get("/login", (req, res) => {
     }
 });
 
-app.listen(8080);
+app.listen(process.env.SERVER_PORT);

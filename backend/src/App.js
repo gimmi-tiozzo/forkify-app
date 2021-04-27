@@ -70,4 +70,4 @@ app.post("/recipes", async (req, res) => {
     }
 });
 
-app.listen(8000);
+app.listen(process.env.SERVER_PORT);
