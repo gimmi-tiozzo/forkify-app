@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+    forkify-au-base:
+        volumes:
+            - D:\courses\my\forkify-app\auth:/app
+        networks:
+            - forkify-net
+    forkify-be-base:
+        ports:
+            - 8000:8000
+        volumes:
+            - /app/node_modules
+            - D:\courses\my\forkify-app\backend:/app
+            - be-logs:/app/logs
+        networks:
+            - forkify-net
+    forkify-fe-base:
+        ports:
+            - 6768:80
+        networks:
+            - forkify-net
+volumes:
+    be-logs:
+networks:
+    forkify-net:
