@@ -1,10 +1,12 @@
-version: "3.8"
+version: "3.9"
 services:
     forkify-au-base:
         volumes:
             - D:\courses\my\forkify-app\auth:/app
         networks:
             - forkify-net
+        profiles:
+            - release
     forkify-be-base:
         ports:
             - 8000:8000
@@ -14,11 +16,15 @@ services:
             - be-logs:/app/logs
         networks:
             - forkify-net
+        profiles:
+            - release
     forkify-fe-base:
         ports:
             - 6768:80
         networks:
             - forkify-net
+        profiles:
+            - release
 volumes:
     be-logs:
 networks:
