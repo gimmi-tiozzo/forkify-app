@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: forkify-fe-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: frontend
+    template:
+        metadata:
+            labels:
+                app: frontend
+            name: forkify-fe-po
+        spec:
+            containers:
+                - name: ff-fe
+                  image: gimmitest/forkify-fe
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  env:
+                      - name: BACKEND_PORT
+                        valueFrom:
+                            configMapKeyRef:
+                                name: forkify-env
+                                key: BACKEND_PORT
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: forkify-be-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: backend
+    template:
+        metadata:
+            labels:
+                app: backend
+            name: forkify-be-po
+        spec:
+            containers:
+                - name: ff-be
+                  image: gimmitest/forkify-be
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  env:
+                      - name: FORKIFY_WEBAPI
+                        valueFrom:
+                            configMapKeyRef:
+                                name: forkify-env
+                                key: FORKIFY_WEBAPI
+                      - name: AUTH_TOKEN
+                        valueFrom:
+                            configMapKeyRef:
+                                name: forkify-env
+                                key: AUTH_TOKEN
+                      - name: AUTH_URL
+                        valueFrom:
+                            configMapKeyRef:
+                                name: forkify-env
+                                key: AUTH_URL
+                  volumeMounts:
+                      - mountPath: /app/logs
+                        name: ff-pod-vol
+            volumes:
+                - name: ff-pod-vol
+                  persistentVolumeClaim:
+                      claimName: forkify-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: forkify-au-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: auth
+    template:
+        metadata:
+            labels:
+                app: auth
+            name: forkify-au-po
+        spec:
+            containers:
+                - name: ff-au
+                  image: gimmitest/forkify-au
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  env:
+                      - name: AUTH_TOKEN
+                        valueFrom:
+                            configMapKeyRef:
+                                name: forkify-env
+                                key: AUTH_TOKEN

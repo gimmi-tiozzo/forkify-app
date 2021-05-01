@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: forkify-env
+data:
+    BACKEND_PORT: "57673" #cambiare ad ogni lancio di minikube service forkify-be-svc
+    FORKIFY_WEBAPI: "https://forkify-api.herokuapp.com/api/v2"
+    AUTH_TOKEN: "05a97d2a-f36d-4b7b-91d9-801cd3c0e963"
+    AUTH_URL: http://forkify-au-svc.default:8080/login #esiste anche la variabile di ambiente FORKIFY_AU_SVC_SERVICE_HOST
