@@ -22,6 +22,7 @@ services:
         container_name: ff-be
         environment:
             - AUTH_PORT=8080
+            - SERVER_HOST=ff-au
         env_file: backend/.env
         extends:
             file: docker-compose-base.yaml
