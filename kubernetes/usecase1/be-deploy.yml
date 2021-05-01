@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: forkify-be-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: backend
+    template:
+        metadata:
+            labels:
+                app: backend
+        spec:
+            containers:
+                - name: ff-be
+                  image: gimmitest/forkify-be
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  env:
+                      - name: FORKIFY_WEBAPI
+                        value: "https://forkify-api.herokuapp.com/api/v2"
+                      - name: AUTH_TOKEN
+                        value: "05a97d2a-f36d-4b7b-91d9-801cd3c0e963"
+                      - name: AUTH_URL
+                        value: http://localhost:8080/login
+                  volumeMounts:
+                      - mountPath: /app/logs
+                        name: ff-pod-vol
+                - name: ff-au
+                  image: gimmitest/forkify-au
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  env:
+                      - name: AUTH_TOKEN
+                        value: "05a97d2a-f36d-4b7b-91d9-801cd3c0e963"
+            volumes:
+                - name: ff-pod-vol
+                  hostPath:
+                      path: /data
+                      type: DirectoryOrCreate
