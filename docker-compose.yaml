@@ -21,8 +21,7 @@ services:
                 DEFAULT_PORT: 8000
         container_name: ff-be
         environment:
-            - AUTH_PORT=8080
-            - SERVER_HOST=ff-au
+            - AUTH_URL=http://ff-au:8080/login
         env_file: backend/.env
         extends:
             file: docker-compose-base.yaml
